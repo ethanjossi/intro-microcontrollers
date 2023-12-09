@@ -1,16 +1,31 @@
 /*
  * Author: Ethan Jossi
  * Created: 12/7/2023
+ * This file is used to interface with a X by X board of WS2812 RGB LED pixels.
+ * The library includes all necessary functions needed to control this board. 
+ * IMPORTANT: the functions reset_board() and set_individual_color() do not apply
+ * to the board. One must call the write_board() function to actually change the
+ * board. This implemenation was used so that a set refresh rate for the board can
+ * be set by calling write_board() every T seconds, but the pixels can be changed
+ * anytime. Otherwise, chaning a series of X pixels would write to the board X number
+ * of times. The CPU will be busy until write_color() is complete.
 */
 
 #include <xc.h>
 #include <stdint.h>
 #include "led_board_asm.h"
+#include "led_board.h"
 
 // ROW, COLUMN indexing is used
-uint8_t green[16][16];
-uint8_t red[16][16];
-uint8_t blue[16][16];
+// green, red, and blue represent the colors for each pixel
+struct led_board
+{
+    /* data */
+};
+
+uint8_t green[MATRIX_HEIGHT][MATRIX_WIDTH];
+uint8_t red[MATRIX_HEIGHT][MATRIX_WIDTH];
+uint8_t blue[MATRIX_HEIGHT][MATRIX_WIDTH];
 
 /*
  * Sets up the LED board by setting the data out pin (RA0)
@@ -29,6 +44,7 @@ void setup_led_board(void) {
  * to write to the display. Cannot be used to write to an individual
  * LED since it does not output the reset command.
  * Parameters: uint8_t g - green value, uint8_t r - red value, uint8_t b - blue value
+ * Return Type: void
  */
 void write_color(uint8_t g, uint8_t r, uint8_t b) {
     uint8_t i;
@@ -61,31 +77,49 @@ void write_color(uint8_t g, uint8_t r, uint8_t b) {
     }
 }
 
-
+/*
+ * This function write a solid color to the whole display. Takes
+ * in a green, red, and blue value. write_board() function does NOT need to be called
+ * Parameters: uint8_t green value, uint8_t red value, uint8_t blue value
+ * Return Type: void
+*/
 void write_solid_color(uint8_t g, uint8_t r, uint8_t b) {
-    for (int i = 0; i < 256; i++) {
+    for (int i = 0; i < (MATRIX_HEIGHT*MATRIX_WIDTH); i++) {
         write_color(g, r, b);
     }
     reset_50();
 }
 
+/*
+ * This function applies the current colors set in the green, red, and blue matrices
+ * To the led board by sending out a series of pulses. Typically takes less than 10ms
+ * to fully execute. 
+ * Parameters: none
+ * Returns: void
+*/
 void write_board() {
-    int row, col; // THIS MUST BE INT!!!
-    for (row = 0; row < 16; row++) {
-        for (col = 15; col >= 0; col--) {
+    int row, col;
+    for (row = 0; row < MATRIX_HEIGHT; row++) {
+        for (col = MATRIX_WIDTH-1; col >= 0; col--) {
             write_color(green[row][col], red[row][col], blue[row][col]);
         }
         row++;
-        for (col = 0; col < 16; col++) {
+        for (col = 0; col < MATRIX_WIDTH; col++) {
             write_color(green[row][col], red[row][col], blue[row][col]);
         }
     }
     reset_50();
 }
 
+/*
+ * Resets the entire board so that all the pixels are off. Does not call
+ * write_board(). Only the green, red, and blue matricies are set to 0x00. 
+ * Parameters: None
+ * Returns: void
+*/
 void reset_board() {
-    for (uint8_t row = 0; row < 16; row++) {
-        for (uint8_t col = 0; col < 16; col++) {
+    for (uint8_t row = 0; row < MATRIX_HEIGHT; row++) {
+        for (uint8_t col = 0; col < MATRIX_WIDTH; col++) {
             green[row][col] = 0x00;
             red[row][col] = 0x00;
             blue[row][col] = 0x00;
@@ -93,6 +127,11 @@ void reset_board() {
     }
 }
 
+/*
+ * Sets an individual pixel to a color. Does not call write_board().
+ * Parameters: uint8_t row, uint8_t col, uint8_t green red and blue values
+ * Returns: void
+*/
 void set_individual_color(uint8_t row, uint8_t col, uint8_t g, uint8_t r, uint8_t b) {
     green[row][col] = g;
     red[row][col] = r;

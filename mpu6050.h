@@ -46,6 +46,8 @@
 #define NUM_CAL_SAMPLES 512
 #define SHIFT_AMOUNT 22 // 2^22 = 4,194,304
 #define SHIFT_MASK ((1 << SHIFT_AMOUNT) - 1) // 4,194,303, all the fraction is set
+#define FRACTIONAL_BITS 22
+#define INTEGER_BITS 9
 
 // Function definitions
 void write_register(uint8_t reg, uint8_t data);

@@ -2,18 +2,20 @@
 #include "mpu6050.h"
 #include <stdio.h>
 
+typedef uint32_t fp_32;
+
 // GLOBAL VARIABLES
 /*
  * Fixed Point Representation:
  * Want to represent anywhere from -180 to +180 degrees
- * We will use 32 bits. 2's complement with 10 for the integer and 22 for the fraction
- *  Integer          Fraction
- * 0000 0000 00 . 00 0000 0000 0000
+ * We will use 32 bits. 2's complement with 9 for the integer and 22 for the fraction
+ * Sign   Integer          Fraction
+ * 0    000 0000 00 . 00 0000 0000 0000
  * Add: add number shifted
  * multiply: can bit shift or just regular multiply
  * divide: can bit shift or just regular divide
  */
-float degX, degY, degZ;
+fp_32 degX, degY, degZ;
 int16_t velX_cal, velY_cal, velZ_cal;
 
 /* 
@@ -126,6 +128,8 @@ void setup_mpu6050() {
 
 /*
  * Gets the current X value of the gyroscope as a 16 bit signed int
+ * Parameters: none
+ * Returns: int16_t
  */
 int16_t get_gyroX() {
     return read_register(GYRO_XOUT_H);
@@ -133,6 +137,8 @@ int16_t get_gyroX() {
 
 /*
  * Gets the current Y value of the gyroscope as a 16 bit signed int
+ * Parameters: none
+ * Returns: int16_t
  */
 int16_t get_gyroY() {
     return read_register(GYRO_YOUT_H);
@@ -140,6 +146,8 @@ int16_t get_gyroY() {
 
 /*
  * Gets the current Z value of the gyroscope as a 16 bit signed int
+ * Parameters: none
+ * Returns: int16_t
  */
 int16_t get_gyroZ() {
     return read_register(GYRO_ZOUT_H);
@@ -159,20 +167,32 @@ void calibrate_gyro(void) {
 }
 
 void update_degrees(void) {
-    degX += (MPU_6050_UPDATE_TIME_MS/1000.0)*((get_gyroX()-velX_cal)/16.38);
-    degY += (MPU_6050_UPDATE_TIME_MS/1000.0)*((get_gyroY()-velY_cal)/16.38);
-    degZ += (MPU_6050_UPDATE_TIME_MS/1000.0)*((get_gyroZ()-velZ_cal)/16.38);
-    
+    // Floating point representation
+    // degX += (MPU_6050_UPDATE_TIME_MS/1000.0)*((get_gyroX()-velX_cal)/16.38);
+    // degY += (MPU_6050_UPDATE_TIME_MS/1000.0)*((get_gyroY()-velY_cal)/16.38);
+    // degZ += (MPU_6050_UPDATE_TIME_MS/1000.0)*((get_gyroZ()-velZ_cal)/16.38);
+    // Fractional representation
+    degX += MPU_6050_UPDATE_TIME_MS * (get_gyroX() - velX_cal);
+    degY += MPU_6050_UPDATE_TIME_MS * (get_gyroY() - velY_cal);
+    degZ += MPU_6050_UPDATE_TIME_MS * (get_gyroZ() - velZ_cal);
 }
 
 float get_degX() {
-    return degX;
+    return degX/(1000*16.38);
 }
 
+uint16_t get_degX_fixed_point() {
+    return degX/(1000*16.38)*(1 << 5);
+    uint64_t deg = degX << 22;
+    deg /= (16380 << 22);
+}
+
+
+
 float get_degY() {
-    return degY;
+    return degY*1000/16.38;
 }
 
 float get_degZ() {
-    return degZ;
+    return degZ*1000/16.38;
 }
