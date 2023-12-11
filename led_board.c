@@ -20,12 +20,12 @@
 // green, red, and blue represent the colors for each pixel
 struct led_board
 {
-    /* data */
+    uint8_t green[MATRIX_HEIGHT][MATRIX_WIDTH];
+    uint8_t red[MATRIX_HEIGHT][MATRIX_WIDTH];
+    uint8_t blue[MATRIX_HEIGHT][MATRIX_WIDTH];
 };
 
-uint8_t green[MATRIX_HEIGHT][MATRIX_WIDTH];
-uint8_t red[MATRIX_HEIGHT][MATRIX_WIDTH];
-uint8_t blue[MATRIX_HEIGHT][MATRIX_WIDTH];
+struct led_board board;
 
 /*
  * Sets up the LED board by setting the data out pin (RA0)
@@ -101,11 +101,11 @@ void write_board() {
     int row, col;
     for (row = 0; row < MATRIX_HEIGHT; row++) {
         for (col = MATRIX_WIDTH-1; col >= 0; col--) {
-            write_color(green[row][col], red[row][col], blue[row][col]);
+            write_color(board.green[row][col], board.red[row][col], board.blue[row][col]);
         }
         row++;
         for (col = 0; col < MATRIX_WIDTH; col++) {
-            write_color(green[row][col], red[row][col], blue[row][col]);
+            write_color(board.green[row][col], board.red[row][col], board.blue[row][col]);
         }
     }
     reset_50();
@@ -120,9 +120,9 @@ void write_board() {
 void reset_board() {
     for (uint8_t row = 0; row < MATRIX_HEIGHT; row++) {
         for (uint8_t col = 0; col < MATRIX_WIDTH; col++) {
-            green[row][col] = 0x00;
-            red[row][col] = 0x00;
-            blue[row][col] = 0x00;
+            board.green[row][col] = 0x00;
+            board.red[row][col] = 0x00;
+            board.blue[row][col] = 0x00;
         }
     }
 }
@@ -133,7 +133,7 @@ void reset_board() {
  * Returns: void
 */
 void set_individual_color(uint8_t row, uint8_t col, uint8_t g, uint8_t r, uint8_t b) {
-    green[row][col] = g;
-    red[row][col] = r;
-    blue[row][col] = b;
+    board.green[row][col] = g;
+    board.red[row][col] = r;
+    board.blue[row][col] = b;
 }

@@ -25,16 +25,21 @@
                                        // Fail-Safe Clock Monitor is enabled)
 #pragma config FNOSC = FRCPLL      // Oscillator Select (Fast RC Oscillator with PLL module (FRCPLL))
 
+uint16_t rollovers = 0;
+uint32_t previous_press = 0;
 
 // FUNCTION DECLARATIONS
 int main(void);
 void setup(void);
 void loop(void);
 void I2C_setup(void);
-void interrupt_setup(void);
+void timer_init(void);
+void IC_init(void);
 void update_display(void);
 void __attribute__ ((interrupt, auto_psv)) _T1Interrupt(void);
 void __attribute__ ((interrupt, auto_psv)) _T2Interrupt(void);
+void __attribute__ ((interrupt, auto_psv)) _T3Interrupt(void);
+void __attribute__ ((interrupt, auto_psv)) _IC1Interrupt(void);
 
 // FUNCTION DEFINITIONS
 
@@ -50,6 +55,21 @@ void __attribute__ ((interrupt, auto_psv)) _T2Interrupt(void) {
     write_board();
 }
 
+void __attribute__ ((interrupt, auto_psv)) _T3Interrupt(void) {
+    _T3IF = 0;
+    rollovers++;
+}
+
+void __attribute__ ((interrupt, auto_psv)) _IC1Interrupt(void) {
+    _IC1IF = 0;
+    uint32_t current_press = IC1BUF + 62500*rollovers;
+    // If the time difference is greater than 20ms, it is not switch bounce
+    if (current_press - previous_press > 1250) {
+        calibrate_gyro();
+    }
+//    LATBbits.LATB5 = 0;
+}
+
 void update_display(void) {
     static char adStrX[11];
     sprintf(adStrX, "X: %f", get_degX());
@@ -61,7 +81,26 @@ void update_display(void) {
     lcd_setCursor(0, 1);
 }
 
-void interrupt_setup(void) {
+void IC_init(void) {
+    AD1PCFG |= 0x0040;                      // Set RB4 to digital
+    TRISBbits.TRISB4 = 1;                        // Set RB4 input (value 1)
+    
+    // Setup PPS
+    __builtin_write_OSCCONL(OSCCON & 0xBF); // Unlock PPS
+    RPINR7bits.IC1R = 4;
+    __builtin_write_OSCCONL(OSCCON | 0x40); // Re-lock PPS
+    
+    CNPU1bits.CN1PUE = 1;                  // RB4:CN24 pull up resistor
+//    CNEN2bits.CN22IE = 1;                   // Enable CN interrupts on CN22
+    
+    // Set up the Input Capture
+    IC1CONbits.ICTMR = 0;                   // Use TMR3 for events
+    IC1CONbits.ICM = 0b001;                 // Turn on capture for every falling edge
+    _IC1IF = 0;
+    _IC1IE = 1;                             // Enable IC1 Interrupts
+}
+
+void timer_init(void) {
     // TMR1 - interrupt for gyroscope
     // Sets up for a 25ms period
     TMR1 = 3999;
@@ -70,6 +109,7 @@ void interrupt_setup(void) {
     PR1 = 6249;
     _T1IF = 0;
     _T1IE = 1;
+    
     // TMR2 - interrupt LED board and game calculation
     // Sets up for a 50 ms period
     TMR2 = 0;
@@ -79,8 +119,18 @@ void interrupt_setup(void) {
     _T2IF = 0;
     _T2IE = 1;
     
+    // TMR3 - used for the IC1 module
+    // Period 1 second
+    TMR3 = 100;
+    T3CON = 0;
+    T3CONbits.TCKPS = 0b11;
+    PR3 = 62499;
+    _T3IF = 0;
+    _T3IE = 1;
+    
     T1CONbits.TON = 1;
     T2CONbits.TON = 1;
+    T3CONbits.TON = 1;
 }
 
 void I2C_setup(void) {
@@ -96,11 +146,12 @@ void setup(void) {
     CLKDIVbits.RCDIV = 0;  //Set RCDIV=1:1 (default 2:1) 32MHz or FCY/2=16M
     AD1PCFG = 0xFFFF;
     // Testing LED
-//    TRISBbits.TRISB6 = 0;
-//    LATBbits.LATB6 = 1;
+//    TRISBbits.TRISB5 = 0;
+//    LATBbits.LATB5 = 1;
     
     I2C_setup(); // Initializes I2C peripheral
     lcd_init(); // Setup the I2C display
+    IC_init();  // IC1 setup
     delay_ms(20);
     setup_mpu6050(); // Setup MPU6050
     delay_ms(20);
@@ -112,10 +163,10 @@ void setup(void) {
     setup_maze();
     write_board();
     
-    // Last thing we do is start the interrupts because these
-    // Will interrupt the setup and power on delays in the earlier
+    // Last thing we do is start the timers because these
+    // will interrupt the setup and power on delays in the earlier
     // part of the setup
-    interrupt_setup();
+    timer_init();
 }
 
 void loop(void) {
