@@ -68,11 +68,11 @@ void __attribute__ ((interrupt, auto_psv)) _IC1Interrupt(void) {
 
 void update_display(void) {
     static char adStrX[11];
-    sprintf(adStrX, "X: %f", get_degX());
+    sprintf(adStrX, "X: %f", get_degX_integer());
     lcd_printStr(adStrX);
     lcd_setCursor(0, 0);
     static char adStrY[11];
-    sprintf(adStrY, "Y: %f", get_degY());
+    sprintf(adStrY, "X: %f", get_degX_fractional());
     lcd_printStr(adStrY);
     lcd_setCursor(0, 1);
 }

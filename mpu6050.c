@@ -2,6 +2,8 @@
 #include "mpu6050.h"
 #include <stdio.h>
 
+typedef uint32_t fp_deg;
+
 // GLOBAL VARIABLES
 /*
  * Fixed Point Representation:
@@ -13,7 +15,7 @@
  * multiply: can bit shift or just regular multiply
  * divide: can bit shift or just regular divide
  */
-float degX, degY, degZ;
+fp_deg degX, degY, degZ;
 volatile int16_t velX_cal, velY_cal, velZ_cal;
 
 /* 
@@ -166,14 +168,22 @@ void calibrate_gyro(void) {
 }
 
 void update_degrees(void) {
-    degX += (MPU_6050_UPDATE_TIME_MS/1000.0)*((get_gyroX()-velX_cal)/16.38);
-    degY += (MPU_6050_UPDATE_TIME_MS/1000.0)*((get_gyroY()-velY_cal)/16.38);
-    degZ += (MPU_6050_UPDATE_TIME_MS/1000.0)*((get_gyroZ()-velZ_cal)/16.38);
-    
+    // degX += (MPU_6050_UPDATE_TIME_MS/1000.0)*((get_gyroX()-velX_cal)/16.38);
+    // degY += (MPU_6050_UPDATE_TIME_MS/1000.0)*((get_gyroY()-velY_cal)/16.38);
+    // degZ += (MPU_6050_UPDATE_TIME_MS/1000.0)*((get_gyroZ()-velZ_cal)/16.38);
+    degX += MPU_6050_UPDATE_TIME_MS*(get_gyroX() - velX_cal);
 }
 
 float get_degX() {
     return degX;
+}
+
+uint16_t get_degX_integer() {
+    return ((degX << 22)/16380) >> 22;
+}
+
+uint32_t get_degX_fraction() {
+    return ((degX << 22)/16380) & SHIFT_MASK;
 }
 
 float get_degY() {
