@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <p24FJ64GA002.h>
 // Use quotes when using your own library, and <> when using a standard library
-//#include <stdlib.h>
 #include "mpu6050.h"
 #include "lcd_display.h"
 #include "led_board.h"
@@ -15,7 +14,6 @@
 #pragma config GWRP = OFF          // General Code Segment Write Protect (Writes to program memory are allowed)
 #pragma config GCP = OFF           // General Code Segment Code Protect (Code protection is disabled)
 #pragma config JTAGEN = OFF        // JTAG Port Enable (JTAG port is disabled)
-
 
 // CW2: FLASH CONFIGURATION WORD 2 (see PIC24 Family Reference Manual 24.1)
 #pragma config I2C1SEL = PRI       // I2C1 Pin Location Select (Use default SCL1/SDA1 pins)
@@ -42,7 +40,6 @@ void __attribute__ ((interrupt, auto_psv)) _T3Interrupt(void);
 void __attribute__ ((interrupt, auto_psv)) _IC1Interrupt(void);
 
 // FUNCTION DEFINITIONS
-
 void __attribute__ ((interrupt, auto_psv)) _T1Interrupt(void) {
     _T1IF = 0;
     update_degrees();
@@ -67,7 +64,6 @@ void __attribute__ ((interrupt, auto_psv)) _IC1Interrupt(void) {
     if (current_press - previous_press > 1250) {
         calibrate_gyro();
     }
-//    LATBbits.LATB5 = 0;
 }
 
 void update_display(void) {
@@ -82,22 +78,21 @@ void update_display(void) {
 }
 
 void IC_init(void) {
-    AD1PCFG |= 0x0040;                      // Set RB4 to digital
-    TRISBbits.TRISB4 = 1;                        // Set RB4 input (value 1)
+    AD1PCFG |= 0x0040;                       // Set RB4 to digital
+    TRISBbits.TRISB4 = 1;                    // Set RB4 input (value 1)
     
     // Setup PPS
-    __builtin_write_OSCCONL(OSCCON & 0xBF); // Unlock PPS
+    __builtin_write_OSCCONL(OSCCON & 0xBF);  // Unlock PPS
     RPINR7bits.IC1R = 4;
-    __builtin_write_OSCCONL(OSCCON | 0x40); // Re-lock PPS
+    __builtin_write_OSCCONL(OSCCON | 0x40);  // Re-lock PPS
     
-    CNPU1bits.CN1PUE = 1;                  // RB4:CN24 pull up resistor
-//    CNEN2bits.CN22IE = 1;                   // Enable CN interrupts on CN22
+    CNPU1bits.CN1PUE = 1;                    // RB4:CN24 pull up resistor
     
     // Set up the Input Capture
-    IC1CONbits.ICTMR = 0;                   // Use TMR3 for events
-    IC1CONbits.ICM = 0b001;                 // Turn on capture for every falling edge
+    IC1CONbits.ICTMR = 0;                    // Use TMR3 for events
+    IC1CONbits.ICM = 0b001;                  // Turn on capture for every falling edge
     _IC1IF = 0;
-    _IC1IE = 1;                             // Enable IC1 Interrupts
+    _IC1IE = 1;                              // Enable IC1 Interrupts
 }
 
 void timer_init(void) {
@@ -136,40 +131,43 @@ void timer_init(void) {
 void I2C_setup(void) {
     // I2C SETUP
     I2C2CONbits.I2CEN = 0;
-    I2C2BRG = 37; // Set Baud Rate to 400kHz
+    // Set Baud Rate to 400kHz
+    I2C2BRG = 37;
     I2C2CONbits.I2CEN = 1;
-//    IEC3bits.MI2C2IE = 1;
+    // IEC3bits.MI2C2IE = 1;
     IFS3bits.MI2C2IF = 0;
 }
 
 void setup(void) {
-    CLKDIVbits.RCDIV = 0;  //Set RCDIV=1:1 (default 2:1) 32MHz or FCY/2=16M
-    AD1PCFG = 0xFFFF;
-    // Testing LED
-//    TRISBbits.TRISB5 = 0;
-//    LATBbits.LATB5 = 1;
+    CLKDIVbits.RCDIV = 0;  // Set RCDIV=1:1 (default 2:1) 32MHz or FCY/2=16M
+    AD1PCFG = 0xFFFF;      // Only need digital pins
     
-    I2C_setup(); // Initializes I2C peripheral
-    lcd_init(); // Setup the I2C display
-    IC_init();  // IC1 setup
+    // Delays are all necessary for the power on timings of the devices.
+    I2C_setup();           // Initializes I2C peripherals
+    lcd_init();            // Setup the I2C display
+    IC_init();             // Input Capture 1 setup
     delay_ms(20);
-    setup_mpu6050(); // Setup MPU6050
+    setup_mpu6050();       // Setup MPU6050
     delay_ms(20);
-    setup_led_board();
-    calibrate_gyro();
+    setup_led_board();     // Setup WS2812 LED board
+    calibrate_gyro();      // Calibrate the gyro before using
     delay_ms(5);
     
-    reset_board();
-    setup_maze();
-    write_board();
+    reset_board();         // Reset the board
+    setup_maze();          // Initialize the maze to the display
+    write_board();         // Apply the maze to the display
     
     // Last thing we do is start the timers because these
-    // will interrupt the setup and power on delays in the earlier
-    // part of the setup
+    // will interrupt the setup and power on delays.
     timer_init();
 }
 
 void loop(void) {
+    /*
+     * Nothing needed here in the loop because everything is handled
+     * by interrupts to happen at certain times and certain refresh
+     * rates. Interrupt timing is EXTREMELY important though. 
+    */
 }
 
 int main(void) {

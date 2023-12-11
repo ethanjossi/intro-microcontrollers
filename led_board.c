@@ -16,15 +16,6 @@
 #include "led_board_asm.h"
 #include "led_board.h"
 
-// ROW, COLUMN indexing is used
-// green, red, and blue represent the colors for each pixel
-struct led_board
-{
-    uint8_t green[MATRIX_HEIGHT][MATRIX_WIDTH];
-    uint8_t red[MATRIX_HEIGHT][MATRIX_WIDTH];
-    uint8_t blue[MATRIX_HEIGHT][MATRIX_WIDTH];
-};
-
 struct led_board board;
 
 /*
@@ -136,4 +127,8 @@ void set_individual_color(uint8_t row, uint8_t col, uint8_t g, uint8_t r, uint8_
     board.green[row][col] = g;
     board.red[row][col] = r;
     board.blue[row][col] = b;
+}
+
+void set_board(struct led_board colors) {
+    board = colors;
 }

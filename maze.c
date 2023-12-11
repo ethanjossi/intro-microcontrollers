@@ -23,140 +23,65 @@ const int8_t wall[16][16] = { //create matrix for wall so ball doesn't overwrite
 };
 
 void setup_maze(void) {
-    // All the necessary commands to build the maze on the screen
-    
-    set_individual_color(0, 1, BALL_COLOR_GREEN, BALL_COLOR_RED, BALL_COLOR_BLUE); //ball
-    set_individual_color(0, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(1, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(2, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(3, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(4, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(5, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(6, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(7, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(8, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(9, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(10, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(11, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(12, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(13, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(14, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 0, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(5, 1, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 1, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 2, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(5, 2, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(8, 2, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(9, 2, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(10, 2, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(11, 2, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 2, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 3, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(3, 3, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(4, 3, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(5, 3, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(8, 3, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(11, 3, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(13, 3, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(14, 3, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 3, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 4, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(3, 4, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(8, 4, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(11, 4, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 4, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 5, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(3, 5, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(5, 5, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(6, 5, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(7, 5, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(8, 5, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(11, 5, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(12, 5, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(13, 5, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 5, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 6, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(5, 6, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 6, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(1, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(2, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(3, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(4, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(5, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(6, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(7, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(8, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(9, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(11, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(12, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(13, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(14, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 7, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 8, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(3, 8, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(13, 8, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 8, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 9, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(3, 9, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(7, 9, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(8, 9, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(9, 9, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(10, 9, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(11, 9, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(12, 9, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(13, 9, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 9, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 10, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(3, 10, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(4, 10, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(11, 10, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(13, 10, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 10, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 11, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(3, 11, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(4, 11, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(5, 11, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(6, 11, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(7, 11, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(8, 11, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(9, 11, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(11, 11, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(13, 11, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 11, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 12, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(3, 12, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(4, 12, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(11, 12, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(13, 12, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 12, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 13, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(3, 13, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(4, 13, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(5, 13, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(6, 13, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(7, 13, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(8, 13, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 14, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(11, 14, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(13, 14, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 14, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(0, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(1, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(2, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(3, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(4, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(5, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(6, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(7, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(8, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(9, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(10, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(11, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(12, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(13, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(14, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
-    set_individual_color(15, 15, MAZE_COLOR_GREEN, MAZE_COLOR_RED, MAZE_COLOR_BLUE);
+    uint8_t green[16][16] = {
+        {MAZE_COLOR_GREEN, BALL_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, 0,                0,                0,                0,                0,                0,                MAZE_COLOR_GREEN, 0,                0,                0,                0,                0,                0,                0,                MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, 0,                0,                0,                0,                0,                0,                MAZE_COLOR_GREEN, 0,                0,                0,                0,                0,                0,                0,                MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, 0,                0,                MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, 0,                0,                MAZE_COLOR_GREEN, 0,                0,                0,                MAZE_COLOR_GREEN, 0,                0,                MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, 0,                0,                0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, 0,                0,                0,                0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                0,                0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, 0,                0,                0,                0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                0,                0,                0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                0,                0,                MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                0,                0,                0,                0,                0,                MAZE_COLOR_GREEN, 0,                0,                0,                0,                0,                MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, 0,                0,                0,                0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                0,                0,                0,                0,                MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, 0,                0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, 0,                0,                MAZE_COLOR_GREEN, 0,                0,                0,                MAZE_COLOR_GREEN, 0,                0,                0,                0,                0,                0,                MAZE_COLOR_GREEN, MAZE_COLOR_GREEN},
+        {MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, MAZE_COLOR_GREEN, 0,                MAZE_COLOR_GREEN, MAZE_COLOR_GREEN}
+    }
+    uint8_t red[16][16] = {
+        {MAZE_COLOR_RED,   BALL_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   0,                0,                0,                0,                0,                0,                MAZE_COLOR_RED,   0,                0,                0,                0,                0,                0,                0,                MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   0,                0,                0,                0,                0,                0,                MAZE_COLOR_RED,   0,                0,                0,                0,                0,                0,                0,                MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   0,                0,                MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   0,                MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   0,                0,                MAZE_COLOR_RED,   0,                0,                0,                MAZE_COLOR_RED,   0,                0,                MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   0,                MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   0,                0,                0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   0,                0,                0,                0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                0,                0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   0,                0,                0,                0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                0,                0,                0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                0,                0,                MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                0,                0,                0,                0,                0,                MAZE_COLOR_RED,   0,                0,                0,                0,                0,                MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   0,                0,                0,                0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                0,                0,                0,                0,                MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   0,                0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   0,                0,                MAZE_COLOR_RED,   0,                0,                0,                MAZE_COLOR_RED,   0,                0,                0,                0,                0,                0,                MAZE_COLOR_RED,   MAZE_COLOR_RED},
+        {MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   MAZE_COLOR_RED,   0,                MAZE_COLOR_RED,   MAZE_COLOR_RED}  
+    }
+    uint8_t blue[16][16] = {
+        {MAZE_COLOR_BLUE,  BALL_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  0,                0,                0,                0,                0,                0,                MAZE_COLOR_BLUE,  0,                0,                0,                0,                0,                0,                0,                MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  0,                0,                0,                0,                0,                0,                MAZE_COLOR_BLUE,  0,                0,                0,                0,                0,                0,                0,                MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  0,                0,                MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  0,                0,                MAZE_COLOR_BLUE,  0,                0,                0,                MAZE_COLOR_BLUE,  0,                0,                MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  0,                0,                0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  0,                0,                0,                0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                0,                0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  0,                0,                0,                0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                0,                0,                0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                0,                0,                MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                0,                0,                0,                0,                0,                MAZE_COLOR_BLUE,  0,                0,                0,                0,                0,                MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  0,                0,                0,                0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                0,                0,                0,                0,                MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  0,                0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  0,                0,                MAZE_COLOR_BLUE,  0,                0,                0,                MAZE_COLOR_BLUE,  0,                0,                0,                0,                0,                0,                MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE},
+        {MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE,  0,                MAZE_COLOR_BLUE,  MAZE_COLOR_BLUE}
+    }
+    struct led_board colors;
+    colors.green = green;
+    colors.red = red;
+    colors.blue = blue;
+    set_board(colors);
 }
 
 void update_ball(void) {

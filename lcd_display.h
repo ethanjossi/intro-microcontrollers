@@ -1,6 +1,6 @@
 /* 
  * File:   lcd_display.h
- * Author: jossi006
+ * Author: Ethan Jossi
  *
  * Created on November 21, 2023, 10:30 AM
  */
